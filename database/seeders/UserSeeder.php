@@ -18,5 +18,7 @@ class UserSeeder extends Seeder
             'name'  => 'Rafael',
             'email' => 'pinguim@dolaravel.com'
         ]);
+
+        User::factory()->count(10000)->create();
     }
 }
