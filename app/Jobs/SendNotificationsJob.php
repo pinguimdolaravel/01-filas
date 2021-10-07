@@ -3,12 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\User;
-use App\Notifications\PinguimDoLaravelEhTop;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
 
 class SendNotificationsJob implements ShouldQueue
 {
@@ -31,6 +31,16 @@ class SendNotificationsJob implements ShouldQueue
      */
     public function handle()
     {
-        User::all()->each(fn ($user) => $user->notify(new PinguimDoLaravelEhTop));
+        $count = 1;
+        User::query()->chunk(100, function ($users) use ($count) {
+            $listOfAllJobs = [];
+            foreach ($users as $user) {
+                $job = new SendNotificationJob($user);
+
+                $listOfAllJobs[] = $job;
+            }
+            Bus::batch($listOfAllJobs)->name('batch send notifications ' . $count)->dispatch();
+            $count++;
+        });
     }
 }
