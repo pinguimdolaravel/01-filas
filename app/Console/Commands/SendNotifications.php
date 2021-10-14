@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendNotificationsJob;
 use App\Models\User;
 use App\Notifications\LearnAboutQueues;
 use Illuminate\Console\Command;
@@ -39,8 +40,10 @@ class SendNotifications extends Command
      */
     public function handle()
     {
-        $this->withProgressBar(User::all(), function ($user) {
-            $user->notify(new LearnAboutQueues);
-        });
+        SendNotificationsJob::dispatch();
+
+        // $this->withProgressBar(User::all(), function ($user) {
+        //     $user->notify(new LearnAboutQueues);
+        // });
     }
 }
