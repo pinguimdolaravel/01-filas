@@ -18,8 +18,8 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         parent::boot();
 
         // Horizon::routeSmsNotificationsTo('15556667777');
-        Horizon::routeMailNotificationsTo('pinguim@dolaravel.com');
-        Horizon::routeSlackNotificationsTo('https://hooks.slack.com/services/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', '#pdl');
+        // Horizon::routeMailNotificationsTo('example@example.com');
+        // Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');
 
         // Horizon::night();
     }
@@ -34,7 +34,9 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function ($user) {
-            return true;
+            return in_array($user->email, [
+                //
+            ]);
         });
     }
 }
