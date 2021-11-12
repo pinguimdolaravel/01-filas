@@ -84,7 +84,7 @@ return [
     */
 
     'waits' => [
-        'redis:default' => 60
+        'redis:default' => 2
     ],
 
     /*
@@ -197,10 +197,7 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'maxProcesses' => 9,
-            ],
-            'supervisor-2' => [
-                'maxProcesses' => 20,
+                'maxProcesses' => 2,
             ],
         ],
     ],

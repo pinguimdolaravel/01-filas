@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\HighJob;
-use App\Jobs\LowJob;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class SendJobs extends Command
@@ -14,8 +14,8 @@ class SendJobs extends Command
 
     public function handle()
     {
-        HighJob::dispatch();
-
-        LowJob::dispatch()->onQueue('low');
+        HighJob::dispatch(
+            User::factory()->create()
+        );
     }
 }

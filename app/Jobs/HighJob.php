@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use Exception;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,13 +13,16 @@ class HighJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $deleteWhenMissingModels = true;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(
+        public User $user
+    ) {
     }
 
     /**
@@ -29,10 +32,6 @@ class HighJob implements ShouldQueue
      */
     public function handle()
     {
-        sleep(2);
-
-        throw new Exception("Error Processing Request", 1);
-
         logger('high job send', [
             'job'        => self::class,
             'queue'      => $this->queue,
